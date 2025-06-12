@@ -5,17 +5,17 @@ public class ThemeManager {
     public String[] getThemes() {
         String[] themes = new String[100];
         TextInputFile file = new TextInputFile("Themes.txt");
-        int intCount = 0;
+        int count = 0;
 
-        while (!file.eof() && intCount < 100) {
-            themes[intCount] = file.readLine();
-            intCount++;
+        while (!file.eof() && count < 100) {
+            themes[count] = file.readLine();
+            count++;
         }
         file.close();
 
         // Resize array to remove unused slots
-        String[] trimmed = new String[intCount];
-        for (int i = 0; i < intCount; i++) trimmed[i] = themes[i];
+        String[] trimmed = new String[count];
+        for (int i = 0; i < count; i++) trimmed[i] = themes[i];
         return trimmed;
     }
 

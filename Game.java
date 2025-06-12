@@ -7,7 +7,7 @@ public class Game {
         con.println("Enter your name:");
         String name = con.readLine();
         boolean isCheater = name.equalsIgnoreCase("statitan");
-        int intScore = 0;
+        int score = 0;
 
         String[] themes = themeManager.getThemes();
         con.println("Available themes:");
@@ -20,55 +20,55 @@ public class Game {
 
         String[] words = themeManager.loadWords(chosenTheme);
         boolean[] used = new boolean[words.length];
-        int intRemaining = words.length;
+        int remaining = words.length;
 
-        while (intRemaining > 0) {
-            int intIndex;
+        while (remaining > 0) {
+            int index;
             do {
-                intIndex = (int) (Math.random() * words.length);
-            } while (used[intIndex]);
+                index = (int) (Math.random() * words.length);
+            } while (used[index]);
 
-            used[intIndex] = true;
-            String strWord = words[intIndex].toUpperCase();
+            used[index] = true;
+            String word = words[index].toUpperCase();
 
-            boolean won = runGame(con, strWord, isCheater);
+            boolean won = runGame(con, word, isCheater);
             if (won) {
-                intScore++;
+                score++;
             }
 
-            intRemaining--;
+            remaining--;
             con.println("Play next word? (Y/N)");
             if (!con.readLine().equalsIgnoreCase("Y")) break;
             con.clear();
         }
 
-        con.println(name + " saved the hangman " + intScore + " times!");
-        leaderboard.saveScore(name, intScore);
+        con.println(name + " saved the hangman " + score + " times!");
+        leaderboard.saveScore(name, score);
         con.readLine(); // Pause
     }
 
     public boolean runGame(Console con, String word, boolean isCheater) {
-        int intWrongGuesses = 0;
+        int wrongGuesses = 0;
         boolean[] revealed = new boolean[word.length()];
-        int intMaxFails = isCheater ? 7 : 6;
+        int maxFails = isCheater ? 7 : 6;
 
-        while (intWrongGuesses < intMaxFails) {
-            Graphics.drawHangman(con, intWrongGuesses, word, revealed);
+        while (wrongGuesses < maxFails) {
+            Graphics.drawHangman(con, wrongGuesses, word, revealed);
             con.println("Guess the word:");
             String guess = con.readLine().toUpperCase();
 
             if (guess.equals(word)) return true;
 
-            intWrongGuesses++;
-            int intRevealIndex;
+            wrongGuesses++;
+            int revealIndex;
             do {
-                intRevealIndex = (int) (Math.random() * word.length());
-            } while (revealed[intRevealIndex]);
+                revealIndex = (int) (Math.random() * word.length());
+            } while (revealed[revealIndex]);
 
-            revealed[intRevealIndex] = true;
+            revealed[revealIndex] = true;
         }
 
-        Graphics.drawHangman(con, intMaxFails, word, revealed);
+        Graphics.drawHangman(con, maxFails, word, revealed);
         con.println("You failed! Word was: " + word);
         return false;
     }
