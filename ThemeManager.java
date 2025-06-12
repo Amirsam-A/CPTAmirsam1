@@ -13,7 +13,6 @@ public class ThemeManager {
         }
         file.close();
 
-        // Resize array to remove unused slots
         String[] trimmed = new String[intCount];
         for (int i = 0; i < intCount; i++) trimmed[i] = themes[i];
         return trimmed;
